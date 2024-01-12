@@ -18,8 +18,9 @@
 
             <div class="mb-3">
                 <label for="body">Body</label>
-                <input type="text" class="form-control @error('body') is-invalid @enderror" name="body" id="body"
-                    required maxlength="200" minlength="3" value="{{old('body', $project->body)}}">
+                <textarea class="form-control @error('body') is-invalid @enderror" name="body" id="body" cols="30" rows="10">
+                    {{old('body', $project->body)}}
+                </textarea>
                 @error('body')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -35,7 +36,6 @@
 
             <button type="submit" class="btn btn-primary">Save</button>
             <button type="reset" class="btn btn-secondary ">Reset</button>
-
 
         </form>
     </section>
