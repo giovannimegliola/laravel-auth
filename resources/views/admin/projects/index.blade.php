@@ -16,16 +16,21 @@
                 @foreach ($projects as $project)
                     <tr>
                         <td>{{$project->title}}</td>
-                        <td>
-                            <a href="{{route('admin.projects.show', $project->id)}}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
-                            <a href="{{route('admin.projects.edit', $project->id)}}" class="btn btn-secondary"><i class="fa-solid fa-pen"></i></a>
-                            <a href="{{route('admin.projects.destroy', $project->id)}}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                        <td class="d-flex">
+                            <a href="{{route('admin.projects.show', $project->id)}}" class="btn btn-primary me-2"><i class="fa-solid fa-eye"></i></a>
+
+                            <a href="{{route('admin.projects.edit', $project->id)}}" class="btn btn-secondary me-2"><i class="fa-solid fa-pen"></i></a>
+
+                            <form action="{{route('admin.projects.destroy', $project->id)}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="cancel-button btn btn-danger" data-item-title="{{$project->title}}"><i class="fa-solid fa-trash"></i></button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-
-
+        @include('profile/partials.modal_delete');
     </section>
 @endsection
