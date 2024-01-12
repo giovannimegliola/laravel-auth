@@ -3,7 +3,7 @@
     <section class="container">
         <h1>Projects List</h1>
 
-        <a href="{{route('admin.projects.create')}}" class="btn btn-primary my-3">Create new Project</a>
+        <a href="{{route('admin.projects.create')}}" class="btn btn-primary my-3"><i class="fa-solid fa-plus"></i> Create new Project</a>
 
         <table class="table">
             <thead>
@@ -31,6 +31,6 @@
                 @endforeach
             </tbody>
         </table>
-        @include('profile/partials.modal_delete');
+        @include('profile/partials.modal_delete')
     </section>
 @endsection
