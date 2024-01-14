@@ -5,19 +5,23 @@
 
         <a href="{{route('admin.projects.create')}}" class="btn btn-primary my-3"><i class="fa-solid fa-plus"></i> Create new Project</a>
 
-        <div class="container">
-            <table class="table">
+        <div>
+            <table class="table table-striped">
+
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Actions</th>
+
+
+                        <th class="text-end px-5 ">Actions</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     @foreach ($projects as $project)
                         <tr>
                             <td>{{$project->title}}</td>
-                            <td class="d-flex">
+                            <td class="d-flex justify-content-end">
                                 <a href="{{route('admin.projects.show', $project->id)}}" class="btn btn-primary me-2"><i class="fa-solid fa-eye"></i></a>
 
                                 <a href="{{route('admin.projects.edit', $project->id)}}" class="btn btn-secondary me-2"><i class="fa-solid fa-pen"></i></a>
@@ -31,6 +35,7 @@
                         </tr>
                     @endforeach
                 </tbody>
+
             </table>
         </div>
 
