@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -34,7 +35,7 @@ class ProjectController extends Controller
     {
         $formData = $request->validated();
         //create slug
-        $slug = Str::slug($formData['title'],'-');
+        $slug = Project::getSlug($formData['title']);
         //add slug to formData
         $formData['slug']= $slug;
         //prendiamo l'id dell'utente loggato
@@ -42,7 +43,15 @@ class ProjectController extends Controller
         //aggiungiamo l'id dell'utente
         $formData['user_id'] = $userId;
 
+
+
+        if ($request->hasFile('image')) {
+            $path = Storage::put('images', $request->image);
+            $formData['image'] = $path;
+        }
+
         $project = Project::create($formData);
+
         return redirect()->route('admin.projects.show', $project->id);
     }
 
@@ -68,14 +77,26 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $formData = $request->validated();
-        //create slug
-        $slug = Str::slug($formData['title'],'-');
+        if ($project->title !== $formData['title']) {
+            //CREATE SLUG
+            $slug = Project::getSlug($formData['title']);
+        }
         //add slug to formData
         $formData['slug']= $slug;
 
 
         //aggiungiamo l'id dell'utente proprietario del post
         $formData['user_id'] = $project->user_id;
+
+
+        if ($request->hasFile('image')) {
+            if ($project->image){
+                Storage::delete($project->image);
+            }
+
+            $path = Storage::put('images', $request->image);
+            $formData['image'] = $path;
+        }
 
         $project->update($formData);
         return redirect()->route('admin.projects.show', $project->id);
@@ -86,6 +107,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+
+        if ($project->image){
+            Storage::delete($project->image);
+        }
         $project->delete();
         return to_route('admin.projects.index')->with('message', "Il progetto $project->title è stato eliminato");
     }

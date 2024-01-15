@@ -32,4 +32,17 @@ buttons.forEach((button) => {
         });
 
     });
+
 });
+
+    const previewImage = document.getElementById("image");
+    previewImage.addEventListener("change", (event) => {
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(previewImage.files[0]);
+
+        oFReader.onload = function(oFRevent) {
+            document.getElementById("uploadPreview").src = oFRevent.target.result;
+        }
+});
+
+
